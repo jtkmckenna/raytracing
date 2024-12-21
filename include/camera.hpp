@@ -32,7 +32,7 @@ public:
 
 private:
   int image_height;           // Rendered image height
-  double pixel_samples_scale; // Color scale factor for a sum of pixel samples
+  double pixel_samples_scale; // colour scale factor for a sum of pixel samples
   point3 center;              // Camera center
   point3 pixel00_loc;         // Location of pixel 0, 0
   vec3 pixel_delta_u;         // Offset to pixel to the right
@@ -91,7 +91,8 @@ private:
     hit_record rec;
 
     if (world.hit(r, interval(0, infinity), rec)) {
-      return 0.5 * (rec.normal + colour(1, 1, 1));
+      vec3 direction = random_on_hemisphere(rec.normal);
+      return 0.5 * ray_colour(ray(rec.p, direction), world);
     }
 
     vec3 unit_direction = unit_vector(r.direction());
