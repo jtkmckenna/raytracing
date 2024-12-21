@@ -9,4 +9,6 @@ make -j8
 
 # Choices that deviate from the tutorial
 
-Choosing .cxx and .hpp has file extensions instead of .cc and .h
+- Choose extensions .cxx and .hpp (as ooposed to .cc and .h in book)
+- Avoiding 'using std::xyz'
+- Prefer the spelling colour
