@@ -8,29 +8,7 @@
 
 #include <iostream>
 
-double hit_sphere(const point3 &center, double radius, const ray &r) {
-  vec3 oc = center - r.origin();
-  auto a = r.direction().length_squared();
-  auto h = dot(r.direction(), oc);
-  auto c = oc.length_squared() - radius * radius;
-  auto discriminant = h * h - a * c;
-
-  if (discriminant < 0) {
-    return -1.0;
-  } else {
-    return (h - std::sqrt(discriminant)) / a;
-  }
-}
-
 int main() {
-
-  // Image
-  auto aspect_ratio = 16.0 / 9.0;
-  int image_width = 400;
-
-  // Calculate the image height, and ensure that it's at least 1.
-  int image_height = int(image_width / aspect_ratio);
-  image_height = (image_height < 1) ? 1 : image_height;
 
   // World
 
