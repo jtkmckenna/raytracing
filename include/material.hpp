@@ -7,8 +7,10 @@ class material {
 public:
   virtual ~material() = default;
 
-  virtual bool scatter(const ray &r_in, const hit_record &rec,
-                       colour &attenuation, ray &scattered) const {
+  virtual bool scatter(const ray &r_in [[maybe_unused]],
+                       const hit_record &rec [[maybe_unused]],
+                       colour &attenuation [[maybe_unused]],
+                       ray &scattered [[maybe_unused]]) const {
     return false;
   }
 };
@@ -17,8 +19,8 @@ class lambertian : public material {
 public:
   lambertian(const colour &albedo) : albedo(albedo) {}
 
-  bool scatter(const ray &r_in, const hit_record &rec, colour &attenuation,
-               ray &scattered) const override {
+  bool scatter(const ray &r_in [[maybe_unused]], const hit_record &rec,
+               colour &attenuation, ray &scattered) const override {
     auto scatter_direction = rec.normal + random_unit_vector();
 
     // Catch degenerate scatter direction
