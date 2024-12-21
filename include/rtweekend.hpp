@@ -29,11 +29,33 @@ inline double random_double(double min, double max) {
   return min + (max - min) * random_double();
 }
 
-// Common Headers
+// Common Macros
 
-#include "colour.hpp"
-#include "interval.hpp"
-#include "ray.hpp"
-#include "vec3.hpp"
+#ifdef DISABLE_CONST_FUNC
+#define CONST_FUNC
+#else
+#define CONST_FUNC const
+#endif
 
+#if DISABLE_CONST_VAR
+#define CONST_VAR
+#else
+#define CONST_VAR const
+#endif
+
+#ifdef DISABLE_NOEXCEPT
+#define noexcept
+#endif
+
+#if DISABLE_ASSUME
+#define ASSUME(expr) // no-op
+#else
+#if defined(_MSC_VER)
+#define ASSUME(cond) __assume(cond)
+#elif defined(__clang__)
+#define ASSUME(cond) __builtin_assume(cond)
+#elif defined(__GNUC__)
+#define ASSUME(cond) [[assume(cond)]]
+#endif
+#endif
 #endif
