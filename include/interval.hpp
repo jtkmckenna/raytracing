@@ -9,13 +9,13 @@ public:
 
   interval(double min, double max) : min(min), max(max) {}
 
-  double size() const { return max - min; }
+  double size() CONST_FUNC { return max - min; }
 
-  bool contains(double x) const { return min <= x && x <= max; }
+  bool contains(double x) CONST_FUNC { return min <= x && x <= max; }
 
-  bool surrounds(double x) const { return min < x && x < max; }
+  bool surrounds(double x) CONST_FUNC { return min < x && x < max; }
 
-  double clamp(double x) const {
+  double clamp(double x) CONST_FUNC {
     if (x < min)
       return min;
     if (x > max)
@@ -23,10 +23,10 @@ public:
     return x;
   }
 
-  static const interval empty, universe;
+  static CONST_VAR interval empty, universe;
 };
 
-const interval interval::empty = interval(+infinity, -infinity);
-const interval interval::universe = interval(-infinity, +infinity);
+CONST_VAR interval interval::empty = interval(+infinity, -infinity);
+CONST_VAR interval interval::universe = interval(-infinity, +infinity);
 
 #endif

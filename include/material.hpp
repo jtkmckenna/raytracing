@@ -7,20 +7,20 @@ class material {
 public:
   virtual ~material() = default;
 
-  virtual bool scatter(const ray &r_in [[maybe_unused]],
-                       const hit_record &rec [[maybe_unused]],
+  virtual bool scatter(CONST_VAR ray &r_in [[maybe_unused]],
+                       CONST_VAR hit_record &rec [[maybe_unused]],
                        colour &attenuation [[maybe_unused]],
-                       ray &scattered [[maybe_unused]]) const {
+                       ray &scattered [[maybe_unused]]) CONST_FUNC {
     return false;
   }
 };
 
 class lambertian : public material {
 public:
-  lambertian(const colour &albedo) : albedo(albedo) {}
+  lambertian(CONST_VAR colour &albedo) : albedo(albedo) {}
 
-  bool scatter(const ray &r_in [[maybe_unused]], const hit_record &rec,
-               colour &attenuation, ray &scattered) const override {
+  bool scatter(CONST_VAR ray &r_in [[maybe_unused]], CONST_VAR hit_record &rec,
+               colour &attenuation, ray &scattered) CONST_FUNC override {
     auto scatter_direction = rec.normal + random_unit_vector();
 
     // Catch degenerate scatter direction
@@ -38,11 +38,11 @@ private:
 
 class metal : public material {
 public:
-  metal(const colour &albedo, double fuzz)
+  metal(CONST_VAR colour &albedo, double fuzz)
       : albedo(albedo), fuzz(fuzz < 1 ? fuzz : 1) {}
 
-  bool scatter(const ray &r_in, const hit_record &rec, colour &attenuation,
-               ray &scattered) const override {
+  bool scatter(CONST_VAR ray &r_in, CONST_VAR hit_record &rec,
+               colour &attenuation, ray &scattered) CONST_FUNC override {
     vec3 reflected = reflect(r_in.direction(), rec.normal);
     reflected = unit_vector(reflected) + (fuzz * random_unit_vector());
     scattered = ray(rec.p, reflected);
@@ -59,8 +59,8 @@ class dielectric : public material {
 public:
   dielectric(double refraction_index) : refraction_index(refraction_index) {}
 
-  bool scatter(const ray &r_in, const hit_record &rec, colour &attenuation,
-               ray &scattered) const override {
+  bool scatter(CONST_VAR ray &r_in, CONST_VAR hit_record &rec,
+               colour &attenuation, ray &scattered) CONST_FUNC override {
     attenuation = colour(1.0, 1.0, 1.0);
     CONST_VAR double ri =
         rec.front_face ? (1.0 / refraction_index) : refraction_index;
@@ -89,15 +89,16 @@ private:
   // refractive index over the refractive index of the enclosing media
   double refraction_index;
 
-  static double reflectance(double cosine, double refraction_index) {
+  static double reflectance(CONST_VAR double cosine,
+                            CONST_VAR double refraction_index) {
     // Use Schlick's approximation for reflectance.
     CONST_VAR auto r0 = (1 - refraction_index) / (1 + refraction_index);
     CONST_VAR auto r0_2 = r0 * r0;
 #if DISABLE_POW
-    auto pow_5 = (1 - cosine) * (1 - cosine) * (1 - cosine) * (1 - cosine) *
-                 (1 - cosine);
+    CONST_VAR auto pow_5 = (1 - cosine) * (1 - cosine) * (1 - cosine) *
+                           (1 - cosine) * (1 - cosine);
 #else
-    auto pow_5 = std::pow(1 - cosine, 5);
+    CONST_VAR auto pow_5 = std::pow(1 - cosine, 5);
 #endif
     return r0_2 + (1 - r0_2) * pow_5;
   }

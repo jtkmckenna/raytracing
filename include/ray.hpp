@@ -7,13 +7,13 @@ class ray {
 public:
   ray() {}
 
-  ray(const point3 &origin, const vec3 &direction)
+  ray(CONST_VAR point3 &origin, CONST_VAR vec3 &direction)
       : orig(origin), dir(direction) {}
 
-  const point3 &origin() const { return orig; }
-  const vec3 &direction() const { return dir; }
+  CONST_FUNC point3 &origin() CONST_FUNC { return orig; }
+  CONST_FUNC vec3 &direction() CONST_FUNC { return dir; }
 
-  point3 at(double t) const { return orig + t * dir; }
+  point3 at(CONST_VAR double t) CONST_FUNC { return orig + t * dir; }
 
 private:
   point3 orig;

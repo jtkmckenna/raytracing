@@ -6,10 +6,11 @@
 
 class sphere : public hittable {
 public:
-  sphere(const point3 &center, double radius, std::shared_ptr<material> mat)
+  sphere(CONST_VAR point3 &center, double radius, std::shared_ptr<material> mat)
       : center(center), radius(std::fmax(0, radius)), mat(mat) {}
 
-  bool hit(const ray &r, interval ray_t, hit_record &rec) const override {
+  bool hit(CONST_VAR ray &r, interval ray_t,
+           hit_record &rec) CONST_FUNC override {
     vec3 oc = center - r.origin();
     CONST_VAR auto a = r.direction().length_squared();
     CONST_VAR auto h = dot(r.direction(), oc);

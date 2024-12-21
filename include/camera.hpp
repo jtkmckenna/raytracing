@@ -21,7 +21,7 @@ public:
   double focus_dist =
       10; // Distance from camera lookfrom point to plane of perfect focus
 
-  void render(const hittable &world) {
+  void render(CONST_VAR hittable &world) {
     initialize();
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -95,7 +95,7 @@ private:
     defocus_disk_v = v * defocus_radius;
   }
 
-  ray get_ray(int i, int j) const {
+  ray get_ray(int i, int j) CONST_FUNC {
     // Construct a camera ray originating from the defocus disk and directed at
     // a randomly sampled point around the pixel location i, j.
 
@@ -111,19 +111,20 @@ private:
     return ray(ray_origin, ray_direction);
   }
 
-  vec3 sample_square() const {
+  vec3 sample_square() CONST_FUNC {
     // Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit
     // square.
     return vec3(random_double() - 0.5, random_double() - 0.5, 0);
   }
 
-  point3 defocus_disk_sample() const {
+  point3 defocus_disk_sample() CONST_FUNC {
     // Returns a random point in the camera defocus disk.
     CONST_VAR auto p = random_in_unit_disk();
     return center + (p[0] * defocus_disk_u) + (p[1] * defocus_disk_v);
   }
 
-  colour ray_colour(const ray &r, int depth, const hittable &world) const {
+  colour ray_colour(CONST_VAR ray &r, int depth,
+                    CONST_VAR hittable &world) CONST_FUNC {
     // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0)
       return colour(0, 0, 0);
