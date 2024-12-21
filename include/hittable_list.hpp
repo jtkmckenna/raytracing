@@ -17,7 +17,7 @@ public:
 
   void add(std::shared_ptr<hittable> object) { objects.push_back(object); }
 
-  bool hit(CONST_VAR ray &r, interval ray_t,
+  bool hit(CONST_INPUT ray &r, interval ray_t,
            hit_record &rec) CONST_FUNC override {
     hit_record temp_rec;
     bool hit_anything = false;

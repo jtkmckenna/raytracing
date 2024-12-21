@@ -7,8 +7,8 @@ class material {
 public:
   virtual ~material() = default;
 
-  virtual bool scatter(CONST_VAR ray &r_in [[maybe_unused]],
-                       CONST_VAR hit_record &rec [[maybe_unused]],
+  virtual bool scatter(CONST_INPUT ray &r_in [[maybe_unused]],
+                       CONST_INPUT hit_record &rec [[maybe_unused]],
                        colour &attenuation [[maybe_unused]],
                        ray &scattered [[maybe_unused]]) CONST_FUNC {
     return false;
@@ -17,10 +17,11 @@ public:
 
 class lambertian : public material {
 public:
-  lambertian(CONST_VAR colour &albedo) : albedo(albedo) {}
+  lambertian(CONST_INPUT colour &albedo) : albedo(albedo) {}
 
-  bool scatter(CONST_VAR ray &r_in [[maybe_unused]], CONST_VAR hit_record &rec,
-               colour &attenuation, ray &scattered) CONST_FUNC override {
+  bool scatter(CONST_INPUT ray &r_in [[maybe_unused]],
+               CONST_INPUT hit_record &rec, colour &attenuation,
+               ray &scattered) CONST_FUNC override {
     auto scatter_direction = rec.normal + random_unit_vector();
 
     // Catch degenerate scatter direction
@@ -38,10 +39,10 @@ private:
 
 class metal : public material {
 public:
-  metal(CONST_VAR colour &albedo, double fuzz)
+  metal(CONST_INPUT colour &albedo, double fuzz)
       : albedo(albedo), fuzz(fuzz < 1 ? fuzz : 1) {}
 
-  bool scatter(CONST_VAR ray &r_in, CONST_VAR hit_record &rec,
+  bool scatter(CONST_INPUT ray &r_in, CONST_INPUT hit_record &rec,
                colour &attenuation, ray &scattered) CONST_FUNC override {
     vec3 reflected = reflect(r_in.direction(), rec.normal);
     reflected = unit_vector(reflected) + (fuzz * random_unit_vector());
@@ -59,7 +60,7 @@ class dielectric : public material {
 public:
   dielectric(double refraction_index) : refraction_index(refraction_index) {}
 
-  bool scatter(CONST_VAR ray &r_in, CONST_VAR hit_record &rec,
+  bool scatter(CONST_INPUT ray &r_in, CONST_INPUT hit_record &rec,
                colour &attenuation, ray &scattered) CONST_FUNC override {
     attenuation = colour(1.0, 1.0, 1.0);
     CONST_VAR double ri =
@@ -89,8 +90,8 @@ private:
   // refractive index over the refractive index of the enclosing media
   double refraction_index;
 
-  static double reflectance(CONST_VAR double cosine,
-                            CONST_VAR double refraction_index) {
+  static double reflectance(CONST_INPUT double cosine,
+                            CONST_INPUT double refraction_index) {
     // Use Schlick's approximation for reflectance.
     CONST_VAR auto r0 = (1 - refraction_index) / (1 + refraction_index);
     CONST_VAR auto r0_2 = r0 * r0;

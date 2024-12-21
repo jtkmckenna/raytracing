@@ -19,7 +19,7 @@ public:
   double operator[](int i) CONST_FUNC { return e[i]; }
   double &operator[](int i) { return e[i]; }
 
-  vec3 &operator+=(CONST_VAR vec3 &v) {
+  vec3 &operator+=(CONST_INPUT vec3 &v) {
     e[0] += v.e[0];
     e[1] += v.e[1];
     e[2] += v.e[2];
@@ -64,41 +64,41 @@ using point3 = vec3;
 
 // Vector Utility Functions
 
-inline std::ostream &operator<<(std::ostream &out, CONST_VAR vec3 &v) {
+inline std::ostream &operator<<(std::ostream &out, CONST_INPUT vec3 &v) {
   return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
 }
 
-inline vec3 operator+(CONST_VAR vec3 &u, CONST_VAR vec3 &v) {
+inline vec3 operator+(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
   return vec3(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
 }
 
-inline vec3 operator-(CONST_VAR vec3 &u, CONST_VAR vec3 &v) {
+inline vec3 operator-(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
   return vec3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
 }
 
-inline vec3 operator*(CONST_VAR vec3 &u, CONST_VAR vec3 &v) {
+inline vec3 operator*(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
   return vec3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
 }
 
-inline vec3 operator*(double t, CONST_VAR vec3 &v) {
+inline vec3 operator*(double t, CONST_INPUT vec3 &v) {
   return vec3(t * v.e[0], t * v.e[1], t * v.e[2]);
 }
 
-inline vec3 operator*(CONST_VAR vec3 &v, double t) { return t * v; }
+inline vec3 operator*(CONST_INPUT vec3 &v, double t) { return t * v; }
 
-inline vec3 operator/(CONST_VAR vec3 &v, double t) { return (1 / t) * v; }
+inline vec3 operator/(CONST_INPUT vec3 &v, double t) { return (1 / t) * v; }
 
-inline double dot(CONST_VAR vec3 &u, CONST_VAR vec3 &v) {
+inline double dot(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
   return u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2];
 }
 
-inline vec3 cross(CONST_VAR vec3 &u, CONST_VAR vec3 &v) {
+inline vec3 cross(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
   return vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
               u.e[2] * v.e[0] - u.e[0] * v.e[2],
               u.e[0] * v.e[1] - u.e[1] * v.e[0]);
 }
 
-inline vec3 unit_vector(CONST_VAR vec3 &v) { return v / v.length(); }
+inline vec3 unit_vector(CONST_INPUT vec3 &v) { return v / v.length(); }
 
 inline vec3 random_in_unit_disk() {
   while (true) {
@@ -117,7 +117,7 @@ inline vec3 random_unit_vector() {
       return p / sqrt(lensq);
   }
 }
-inline vec3 random_on_hemisphere(CONST_VAR vec3 &normal) {
+inline vec3 random_on_hemisphere(CONST_INPUT vec3 &normal) {
   CONST_VAR vec3 on_unit_sphere = random_unit_vector();
   if (dot(on_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
     return on_unit_sphere;
@@ -125,11 +125,11 @@ inline vec3 random_on_hemisphere(CONST_VAR vec3 &normal) {
     return -on_unit_sphere;
 }
 
-inline vec3 reflect(CONST_VAR vec3 &v, CONST_VAR vec3 &n) {
+inline vec3 reflect(CONST_INPUT vec3 &v, CONST_INPUT vec3 &n) {
   return v - 2 * dot(v, n) * n;
 }
 
-inline vec3 refract(CONST_VAR vec3 &uv, CONST_VAR vec3 &n,
+inline vec3 refract(CONST_INPUT vec3 &uv, CONST_INPUT vec3 &n,
                     double etai_over_etat) {
   CONST_VAR auto cos_theta = std::fmin(dot(-uv, n), 1.0);
   CONST_VAR vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);

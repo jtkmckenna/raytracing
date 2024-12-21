@@ -13,7 +13,7 @@ public:
   double t;
   bool front_face;
 
-  void set_face_normal(CONST_VAR ray &r, CONST_VAR vec3 &outward_normal) {
+  void set_face_normal(CONST_INPUT ray &r, CONST_INPUT vec3 &outward_normal) {
     // Sets the hit record normal vector.
     // NOTE: the parameter `outward_normal` is assumed to have unit length.
 
@@ -26,7 +26,7 @@ class hittable {
 public:
   virtual ~hittable() = default;
 
-  virtual bool hit(CONST_VAR ray &r, interval ray_t,
+  virtual bool hit(CONST_INPUT ray &r, interval ray_t,
                    hit_record &rec) CONST_FUNC = 0;
 };
 

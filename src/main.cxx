@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-void help(const camera &cam) {
+void help(CONST_INPUT camera &cam) {
 
   std::clog << "Options:\n";
   std::clog << "  -h, --help\t\tShow this help message\n";
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 
   // Command line options
   for (int i = 1; i < argc; i++) {
-    const std::string arg(argv[i]);
+    CONST_VAR std::string arg(argv[i]);
     if (arg == "-h" or arg == "--help") {
       std::clog << "Usage: " << argv[0] << " [-h]\n";
       help(cam);

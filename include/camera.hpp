@@ -21,7 +21,7 @@ public:
   double focus_dist =
       10; // Distance from camera lookfrom point to plane of perfect focus
 
-  void render(CONST_VAR hittable &world) {
+  void render(CONST_INPUT hittable &world) {
     initialize();
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -123,8 +123,8 @@ private:
     return center + (p[0] * defocus_disk_u) + (p[1] * defocus_disk_v);
   }
 
-  colour ray_colour(CONST_VAR ray &r, int depth,
-                    CONST_VAR hittable &world) CONST_FUNC {
+  colour ray_colour(CONST_INPUT ray &r, int depth,
+                    CONST_INPUT hittable &world) CONST_FUNC {
     // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0)
       return colour(0, 0, 0);

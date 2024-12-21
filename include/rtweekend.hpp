@@ -21,6 +21,12 @@
 #define CONST_VAR const
 #endif
 
+#if DISABLE_CONST_INPUT
+#define CONST_INPUT
+#else
+#define CONST_INPUT const
+#endif
+
 #ifdef DISABLE_NOEXCEPT
 #define noexcept
 #endif
@@ -45,7 +51,7 @@ CONST_VAR double pi = 3.1415926535897932385;
 
 // Utility Functions
 
-inline double degrees_to_radians(CONST_VAR double degrees) {
+inline double degrees_to_radians(CONST_INPUT double degrees) {
   return degrees * pi / 180.0;
 }
 
@@ -55,7 +61,7 @@ inline double random_double() {
   return distribution(generator);
 }
 
-inline double random_double(CONST_VAR double min, CONST_VAR double max) {
+inline double random_double(CONST_INPUT double min, CONST_INPUT double max) {
   // Returns a random real in [min,max).
   return min + (max - min) * random_double();
 }
