@@ -8,7 +8,52 @@
 
 #include <iostream>
 
-int main() {
+void help() {
+
+  std::clog << "Options:\n";
+  std::clog << "  -h, --help\t\tShow this help message\n";
+  std::clog << "  -w, --width\t\tSet image width\n";
+  std::clog << "  -s, --samples\t\tSet samples per pixel\n";
+  std::clog << "  -d, --depth\t\tSet max depth\n" << std::flush;
+}
+
+int main(int argc, char **argv) {
+
+  camera cam;
+  cam.aspect_ratio = 16.0 / 9.0;
+  cam.image_width = 1200;
+  cam.samples_per_pixel = 500;
+  cam.max_depth = 50;
+
+  // Command line options
+  for (int i = 1; i < argc; i++) {
+    const std::string arg(argv[i]);
+    if (arg == "-h" or arg == "--help") {
+      std::clog << "Usage: " << argv[0] << " [-h]\n";
+      help();
+      return 0;
+    } else if (arg == "-w" or arg == "--width") {
+      if (i + 1 < argc) {
+        cam.image_width = std::stoi(argv[i + 1]);
+        std::clog << "Setting width to " << cam.image_width << '\n';
+      }
+    } else if (arg == "-s" or arg == "--samples") {
+      if (i + 1 < argc) {
+        cam.samples_per_pixel = std::stoi(argv[i + 1]);
+        std::clog << "Setting samples per pixel to " << cam.samples_per_pixel
+                  << '\n';
+      }
+    } else if (arg == "-d" or arg == "--depth") {
+      if (i + 1 < argc) {
+        cam.max_depth = std::stoi(argv[i + 1]);
+        std::clog << "Setting max depth to " << cam.max_depth << '\n';
+      }
+    } else {
+      std::cerr << "Unknown option: " << arg << '\n';
+      help();
+      return 1;
+    }
+  }
 
   // World
 
@@ -53,12 +98,6 @@ int main() {
 
   auto material3 = std::make_shared<metal>(colour(0.7, 0.6, 0.5), 0.0);
   world.add(std::make_shared<sphere>(point3(4, 1, 0), 1.0, material3));
-
-  camera cam;
-  cam.aspect_ratio = 16.0 / 9.0;
-  cam.image_width = 1200;
-  cam.samples_per_pixel = 500;
-  cam.max_depth = 50;
 
   cam.vfov = 20;
   cam.lookfrom = point3(13, 2, 3);
