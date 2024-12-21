@@ -38,18 +38,18 @@ int main(int argc, char **argv) {
       return 0;
     } else if (arg == "-w" or arg == "--width") {
       if (i + 1 < argc) {
-        cam.image_width = std::stoi(argv[i + 1]);
+        cam.image_width = std::stoi(argv[++i]);
         std::clog << "Setting width to " << cam.image_width << '\n';
       }
     } else if (arg == "-s" or arg == "--samples") {
       if (i + 1 < argc) {
-        cam.samples_per_pixel = std::stoi(argv[i + 1]);
+        cam.samples_per_pixel = std::stoi(argv[++i]);
         std::clog << "Setting samples per pixel to " << cam.samples_per_pixel
                   << '\n';
       }
     } else if (arg == "-d" or arg == "--depth") {
       if (i + 1 < argc) {
-        cam.max_depth = std::stoi(argv[i + 1]);
+        cam.max_depth = std::stoi(argv[++i]);
         std::clog << "Setting max depth to " << cam.max_depth << '\n';
       }
     } else {
