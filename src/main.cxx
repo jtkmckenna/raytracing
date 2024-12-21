@@ -8,13 +8,17 @@
 
 #include <iostream>
 
-void help() {
+void help(const camera &cam) {
 
   std::clog << "Options:\n";
   std::clog << "  -h, --help\t\tShow this help message\n";
-  std::clog << "  -w, --width\t\tSet image width\n";
-  std::clog << "  -s, --samples\t\tSet samples per pixel\n";
-  std::clog << "  -d, --depth\t\tSet max depth\n" << std::flush;
+  std::clog << "  -w, --width\t\tSet image width (default: " << cam.image_width
+            << " \n";
+  std::clog << "  -s, --samples\t\tSet samples per pixel (default: "
+            << cam.samples_per_pixel << ")\n";
+  std::clog << "  -d, --depth\t\tSet max depth (default: " << cam.max_depth
+            << ")\n";
+  std::clog << std::flush;
 }
 
 int main(int argc, char **argv) {
@@ -30,7 +34,7 @@ int main(int argc, char **argv) {
     const std::string arg(argv[i]);
     if (arg == "-h" or arg == "--help") {
       std::clog << "Usage: " << argv[0] << " [-h]\n";
-      help();
+      help(cam);
       return 0;
     } else if (arg == "-w" or arg == "--width") {
       if (i + 1 < argc) {
@@ -50,7 +54,7 @@ int main(int argc, char **argv) {
       }
     } else {
       std::cerr << "Unknown option: " << arg << '\n';
-      help();
+      help(cam);
       return 1;
     }
   }
