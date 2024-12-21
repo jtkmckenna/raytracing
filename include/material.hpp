@@ -67,7 +67,7 @@ public:
     vec3 unit_direction = unit_vector(r_in.direction());
     double cos_theta = std::fmin(dot(-unit_direction, rec.normal), 1.0);
     double one_cos_theta_2 = 1.0 - cos_theta * cos_theta;
-    ASSUME(one_cos_theta_2 >= 0)
+    ASSUME(one_cos_theta_2 >= 0);
     double sin_theta = std::sqrt(one_cos_theta_2);
 
     bool cannot_refract = ri * sin_theta > 1.0;

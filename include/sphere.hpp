@@ -18,7 +18,7 @@ public:
     auto discriminant = h * h - a * c;
     if (discriminant < 0)
       return false;
-
+    ASSUME(discriminant >= 0);
     auto sqrtd = std::sqrt(discriminant);
 
     // Find the nearest root that lies in the acceptable range.

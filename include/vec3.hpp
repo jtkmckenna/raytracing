@@ -112,6 +112,7 @@ inline vec3 random_unit_vector() {
   while (true) {
     auto p = vec3::random(-1, 1);
     auto lensq = p.length_squared();
+    ASSUME(lensq >= 0);
     if (1e-160 < lensq && lensq <= 1)
       return p / sqrt(lensq);
   }
@@ -131,8 +132,9 @@ inline vec3 reflect(const vec3 &v, const vec3 &n) {
 inline vec3 refract(const vec3 &uv, const vec3 &n, double etai_over_etat) {
   auto cos_theta = std::fmin(dot(-uv, n), 1.0);
   vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
-  vec3 r_out_parallel =
-      -std::sqrt(std::fabs(1.0 - r_out_perp.length_squared())) * n;
+  double r_out_parallel_2 = std::fabs(1.0 - r_out_perp.length_squared());
+  ASSUME(r_out_parallel_2 >= 0);
+  vec3 r_out_parallel = -std::sqrt(r_out_parallel_2) * n;
   return r_out_perp + r_out_parallel;
 }
 
