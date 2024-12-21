@@ -66,7 +66,9 @@ public:
 
     vec3 unit_direction = unit_vector(r_in.direction());
     double cos_theta = std::fmin(dot(-unit_direction, rec.normal), 1.0);
-    double sin_theta = std::sqrt(1.0 - cos_theta * cos_theta);
+    double one_cos_theta_2 = 1.0 - cos_theta * cos_theta;
+    ASSUME(one_cos_theta_2 >= 0)
+    double sin_theta = std::sqrt(one_cos_theta_2);
 
     bool cannot_refract = ri * sin_theta > 1.0;
     vec3 direction;
@@ -89,7 +91,13 @@ private:
     // Use Schlick's approximation for reflectance.
     auto r0 = (1 - refraction_index) / (1 + refraction_index);
     r0 = r0 * r0;
-    return r0 + (1 - r0) * std::pow((1 - cosine), 5);
+#if DISABLE_POW
+    auto pow_5 = (1 - cosine) * (1 - cosine) * (1 - cosine) * (1 - cosine) *
+                 (1 - cosine);
+#else
+    auto pow_5 = std::pow(1 - cosine, 5);
+#endif
+    return r0 + (1 - r0) * pow_5;
   }
 };
 

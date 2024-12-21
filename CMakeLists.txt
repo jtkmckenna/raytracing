@@ -13,6 +13,7 @@ option(DISABLE_NOEXCEPT "Disable noexcept keyword" OFF)
 option(DISABLE_OVERRIDE "Disable override keyword" OFF)
 option(DISABLE_FINAL "Disable final keyword" OFF)
 option(DISABLE_ASSUME "Disable assume keyword" OFF)
+option(DISABLE_POW "Disable pow function (replace with unrolled calculation)" OFF)
 
 
 if(DISABLE_CONST_FUNC)
@@ -32,6 +33,9 @@ if(DISABLE_FINAL)
 endif()
 if(DISABLE_ASSUME)
     add_compile_definitions(DISABLE_ASSUME)
+endif()
+if (DISABLE_POW)
+    add_compile_definitions(DISABLE_POW)
 endif()
 
 include_directories(include)
