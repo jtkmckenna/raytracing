@@ -62,15 +62,17 @@ public:
   bool scatter(const ray &r_in, const hit_record &rec, colour &attenuation,
                ray &scattered) const override {
     attenuation = colour(1.0, 1.0, 1.0);
-    double ri = rec.front_face ? (1.0 / refraction_index) : refraction_index;
+    CONST_VAR double ri =
+        rec.front_face ? (1.0 / refraction_index) : refraction_index;
 
     vec3 unit_direction = unit_vector(r_in.direction());
-    double cos_theta = std::fmin(dot(-unit_direction, rec.normal), 1.0);
-    double one_cos_theta_2 = 1.0 - cos_theta * cos_theta;
+    CONST_VAR double cos_theta =
+        std::fmin(dot(-unit_direction, rec.normal), 1.0);
+    CONST_VAR double one_cos_theta_2 = 1.0 - cos_theta * cos_theta;
     ASSUME(one_cos_theta_2 >= 0);
-    double sin_theta = std::sqrt(one_cos_theta_2);
+    CONST_VAR double sin_theta = std::sqrt(one_cos_theta_2);
 
-    bool cannot_refract = ri * sin_theta > 1.0;
+    CONST_VAR bool cannot_refract = ri * sin_theta > 1.0;
     vec3 direction;
 
     if (cannot_refract || reflectance(cos_theta, ri) > random_double())
@@ -89,15 +91,15 @@ private:
 
   static double reflectance(double cosine, double refraction_index) {
     // Use Schlick's approximation for reflectance.
-    auto r0 = (1 - refraction_index) / (1 + refraction_index);
-    r0 = r0 * r0;
+    CONST_VAR auto r0 = (1 - refraction_index) / (1 + refraction_index);
+    CONST_VAR auto r0_2 = r0 * r0;
 #if DISABLE_POW
     auto pow_5 = (1 - cosine) * (1 - cosine) * (1 - cosine) * (1 - cosine) *
                  (1 - cosine);
 #else
     auto pow_5 = std::pow(1 - cosine, 5);
 #endif
-    return r0 + (1 - r0) * pow_5;
+    return r0_2 + (1 - r0_2) * pow_5;
   }
 };
 
