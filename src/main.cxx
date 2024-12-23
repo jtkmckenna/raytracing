@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-void help(CONST_INPUT camera &cam) {
+void help(const camera &cam) {
 
   std::clog << "Options:\n";
   std::clog << "  -h, --help\t\tShow this help message\n";

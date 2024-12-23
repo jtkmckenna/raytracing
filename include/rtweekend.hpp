@@ -9,22 +9,10 @@
 
 // Common Macros
 
-#ifdef DISABLE_CONST_FUNC
-#define CONST_FUNC
-#else
-#define CONST_FUNC const
-#endif
-
 #if DISABLE_CONST_VAR
 #define CONST_VAR
 #else
 #define CONST_VAR const
-#endif
-
-#if DISABLE_CONST_INPUT
-#define CONST_INPUT
-#else
-#define CONST_INPUT const
 #endif
 
 #ifdef DISABLE_NOEXCEPT
@@ -42,7 +30,6 @@
 #define ASSUME(cond) [[assume(cond)]]
 #endif
 #endif
-#endif
 
 // Constants
 
@@ -51,7 +38,7 @@ CONST_VAR double pi = 3.1415926535897932385;
 
 // Utility Functions
 
-inline double degrees_to_radians(CONST_INPUT double degrees) {
+inline double degrees_to_radians(const double degrees) {
   return degrees * pi / 180.0;
 }
 
@@ -61,7 +48,9 @@ inline double random_double() {
   return distribution(generator);
 }
 
-inline double random_double(CONST_INPUT double min, CONST_INPUT double max) {
+inline double random_double(const double min, const double max) {
   // Returns a random real in [min,max).
   return min + (max - min) * random_double();
 }
+
+#endif

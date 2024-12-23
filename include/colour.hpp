@@ -2,6 +2,7 @@
 #define colour_H
 
 #include "interval.hpp"
+#include "rtweekend.hpp"
 #include "vec3.hpp"
 
 #include <iostream>
@@ -16,7 +17,7 @@ inline double linear_to_gamma(CONST_VAR double linear_component) {
   return 0;
 }
 
-void write_colour(std::ostream &out, CONST_INPUT colour &pixel_colour) {
+void write_colour(std::ostream &out, const colour &pixel_colour) {
   auto r = pixel_colour.x();
   auto g = pixel_colour.y();
   auto b = pixel_colour.z();

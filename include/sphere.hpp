@@ -2,15 +2,16 @@
 #define SPHERE_H
 
 #include "hittable.hpp"
+#include "rtweekend.hpp"
 #include "vec3.hpp"
 
 class sphere : public hittable {
 public:
-  sphere(CONST_VAR point3 &center, double radius, std::shared_ptr<material> mat)
+  sphere(const point3 &center, const double radius,
+         std::shared_ptr<material> mat)
       : center(center), radius(std::fmax(0, radius)), mat(mat) {}
 
-  bool hit(CONST_VAR ray &r, interval ray_t,
-           hit_record &rec) CONST_FUNC override {
+  bool hit(const ray &r, interval ray_t, hit_record &rec) const override {
     vec3 oc = center - r.origin();
     CONST_VAR auto a = r.direction().length_squared();
     CONST_VAR auto h = dot(r.direction(), oc);

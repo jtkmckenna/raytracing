@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "rtweekend.hpp"
+
 class vec3 {
 public:
   double e[3];
@@ -11,15 +13,15 @@ public:
   vec3() : e{0, 0, 0} {}
   vec3(double e0, double e1, double e2) : e{e0, e1, e2} {}
 
-  double x() CONST_FUNC { return e[0]; }
-  double y() CONST_FUNC { return e[1]; }
-  double z() CONST_FUNC { return e[2]; }
+  double x() const { return e[0]; }
+  double y() const { return e[1]; }
+  double z() const { return e[2]; }
 
-  vec3 operator-() CONST_FUNC { return vec3(-e[0], -e[1], -e[2]); }
-  double operator[](int i) CONST_FUNC { return e[i]; }
-  double &operator[](int i) { return e[i]; }
+  vec3 operator-() const { return vec3(-e[0], -e[1], -e[2]); }
+  double operator[](const int i) const { return e[i]; }
+  double &operator[](const int i) { return e[i]; }
 
-  vec3 &operator+=(CONST_INPUT vec3 &v) {
+  vec3 &operator+=(const vec3 &v) {
     e[0] += v.e[0];
     e[1] += v.e[1];
     e[2] += v.e[2];
@@ -35,13 +37,13 @@ public:
 
   vec3 &operator/=(double t) { return *this *= 1 / t; }
 
-  double length() CONST_FUNC { return std::sqrt(length_squared()); }
+  double length() const { return std::sqrt(length_squared()); }
 
-  double length_squared() CONST_FUNC {
+  double length_squared() const {
     return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
   }
 
-  bool near_zero() CONST_FUNC {
+  bool near_zero() const {
     // Return true if the vector is close to zero in all dimensions.
     CONST_VAR auto s = 1e-8;
     return (std::fabs(e[0]) < s) && (std::fabs(e[1]) < s) &&
@@ -52,7 +54,7 @@ public:
     return vec3(random_double(), random_double(), random_double());
   }
 
-  static vec3 random(double min, double max) {
+  static vec3 random(const double min, const double max) {
     return vec3(random_double(min, max), random_double(min, max),
                 random_double(min, max));
   }
@@ -64,41 +66,41 @@ using point3 = vec3;
 
 // Vector Utility Functions
 
-inline std::ostream &operator<<(std::ostream &out, CONST_INPUT vec3 &v) {
+inline std::ostream &operator<<(std::ostream &out, const vec3 &v) {
   return out << v.e[0] << ' ' << v.e[1] << ' ' << v.e[2];
 }
 
-inline vec3 operator+(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
+inline vec3 operator+(const vec3 &u, const vec3 &v) {
   return vec3(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
 }
 
-inline vec3 operator-(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
+inline vec3 operator-(const vec3 &u, const vec3 &v) {
   return vec3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
 }
 
-inline vec3 operator*(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
+inline vec3 operator*(const vec3 &u, const vec3 &v) {
   return vec3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
 }
 
-inline vec3 operator*(double t, CONST_INPUT vec3 &v) {
+inline vec3 operator*(const double t, const vec3 &v) {
   return vec3(t * v.e[0], t * v.e[1], t * v.e[2]);
 }
 
-inline vec3 operator*(CONST_INPUT vec3 &v, double t) { return t * v; }
+inline vec3 operator*(const vec3 &v, const double t) { return t * v; }
 
-inline vec3 operator/(CONST_INPUT vec3 &v, double t) { return (1 / t) * v; }
+inline vec3 operator/(const vec3 &v, const double t) { return (1 / t) * v; }
 
-inline double dot(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
+inline double dot(const vec3 &u, const vec3 &v) {
   return u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2];
 }
 
-inline vec3 cross(CONST_INPUT vec3 &u, CONST_INPUT vec3 &v) {
+inline vec3 cross(const vec3 &u, const vec3 &v) {
   return vec3(u.e[1] * v.e[2] - u.e[2] * v.e[1],
               u.e[2] * v.e[0] - u.e[0] * v.e[2],
               u.e[0] * v.e[1] - u.e[1] * v.e[0]);
 }
 
-inline vec3 unit_vector(CONST_INPUT vec3 &v) { return v / v.length(); }
+inline vec3 unit_vector(const vec3 &v) { return v / v.length(); }
 
 inline vec3 random_in_unit_disk() {
   while (true) {
@@ -117,7 +119,8 @@ inline vec3 random_unit_vector() {
       return p / sqrt(lensq);
   }
 }
-inline vec3 random_on_hemisphere(CONST_INPUT vec3 &normal) {
+
+inline vec3 random_on_hemisphere(const vec3 &normal) {
   CONST_VAR vec3 on_unit_sphere = random_unit_vector();
   if (dot(on_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
     return on_unit_sphere;
@@ -125,12 +128,11 @@ inline vec3 random_on_hemisphere(CONST_INPUT vec3 &normal) {
     return -on_unit_sphere;
 }
 
-inline vec3 reflect(CONST_INPUT vec3 &v, CONST_INPUT vec3 &n) {
+inline vec3 reflect(const vec3 &v, const vec3 &n) {
   return v - 2 * dot(v, n) * n;
 }
 
-inline vec3 refract(CONST_INPUT vec3 &uv, CONST_INPUT vec3 &n,
-                    double etai_over_etat) {
+inline vec3 refract(const vec3 &uv, const vec3 &n, double etai_over_etat) {
   CONST_VAR auto cos_theta = std::fmin(dot(-uv, n), 1.0);
   CONST_VAR vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
   CONST_VAR double r_out_parallel_2 =
