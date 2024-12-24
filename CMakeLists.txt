@@ -36,5 +36,12 @@ if (DISABLE_POW)
     add_compile_definitions(DISABLE_POW)
 endif()
 
+# Add source files
+file(GLOB SOURCES "src/*.cxx")
+file(GLOB HEADERS "include/*.hxx")
+
+# Build source files
+
+
 include_directories(include)
-add_executable(inOneWeekend src/main.cxx)
+add_executable(inOneWeekend mains/main.cxx ${SOURCES} ${HEADERS})

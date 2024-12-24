@@ -24,11 +24,6 @@ public:
       return max;
     return x;
   }
-
-  static CONST_VAR interval empty, universe;
 };
-
-CONST_VAR interval interval::empty = interval(+infinity, -infinity);
-CONST_VAR interval interval::universe = interval(-infinity, +infinity);
 
 #endif
