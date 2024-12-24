@@ -5,6 +5,7 @@
 #include "rtweekend.hpp"
 
 class material;
+class interval;
 
 class hit_record {
 public:
