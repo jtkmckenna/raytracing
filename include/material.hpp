@@ -50,19 +50,7 @@ private:
   // refractive index over the refractive index of the enclosing media
   double refraction_index;
 
-  static double reflectance(const double cosine,
-                            const double refraction_index) {
-    // Use Schlick's approximation for reflectance.
-    CONST_VAR auto r0 = (1 - refraction_index) / (1 + refraction_index);
-    CONST_VAR auto r0_2 = r0 * r0;
-#if DISABLE_POW
-    CONST_VAR auto pow_5 = (1 - cosine) * (1 - cosine) * (1 - cosine) *
-                           (1 - cosine) * (1 - cosine);
-#else
-    CONST_VAR auto pow_5 = std::pow(1 - cosine, 5);
-#endif
-    return r0_2 + (1 - r0_2) * pow_5;
-  }
+  static double reflectance(const double cosine, const double refraction_index);
 };
 
 #endif
