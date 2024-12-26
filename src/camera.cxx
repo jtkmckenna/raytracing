@@ -101,7 +101,8 @@ colour camera::ray_colour(const ray &r, int depth,
     return colour(0, 0, 0);
   hit_record rec;
 
-  if (world.hit(r, interval(0.001, infinity), rec)) {
+  if (world.hit(r, interval(0.001, std::numeric_limits<double>::infinity()),
+                rec)) {
     ray scattered;
     colour attenuation;
     if (rec.mat->scatter(r, rec, attenuation, scattered))

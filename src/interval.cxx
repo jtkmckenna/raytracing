@@ -2,7 +2,9 @@
 #include "interval.hpp"
 
 interval::interval()
-    : min(+infinity), max(-infinity) {} // Default interval is empty
+    : min(+std::numeric_limits<double>::infinity()),
+      max(-std::numeric_limits<double>::infinity()) {
+} // Default interval is empty
 
 interval::interval(const double min, const double max) : min(min), max(max) {}
 
