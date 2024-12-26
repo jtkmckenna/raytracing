@@ -28,3 +28,4 @@ Options:
 - Choose extensions .cxx and .hpp (as ooposed to .cc and .h in book)
 - Avoiding 'using std::xyz'
 - Prefer the spelling colour
+- Bump minimum C++ standard to C++14 (for better constexpr support)

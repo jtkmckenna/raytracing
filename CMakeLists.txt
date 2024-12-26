@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(Raytracing)
 
-add_compile_options(-Wall -Wextra)
+add_compile_options(-Wall -Wextra -flto)
 
 set(CMAKE_BUILD_TYPE Release)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 option(DISABLE_CONST_FUNC "Disable const keyword on member functions" OFF)
 option(DISABLE_CONST_INPUT "Disable const keyword on input parameters" OFF)
@@ -15,6 +15,7 @@ option(DISABLE_OVERRIDE "Disable override keyword" OFF)
 option(DISABLE_FINAL "Disable final keyword" OFF)
 option(DISABLE_ASSUME "Disable assume keyword" OFF)
 option(DISABLE_POW "Disable pow function (replace with unrolled calculation)" OFF)
+option(DISABLE_CONSTEXPR "Disable constexpr keyword" OFF)
 
 
 if(DISABLE_CONST_VAR)
@@ -34,6 +35,9 @@ if(DISABLE_ASSUME)
 endif()
 if (DISABLE_POW)
     add_compile_definitions(DISABLE_POW)
+endif()
+if (NOT DISABLE_CONSTEXPR)
+    add_compile_definitions(CONSTEXPR_NOT_INLINE)
 endif()
 
 include_directories(include)
