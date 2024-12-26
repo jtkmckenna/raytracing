@@ -31,14 +31,22 @@
 #endif
 #endif
 
+#if CONSTEXPR_NOT_INLINE
+#define CONSTEXPR_OR_INLINE constexpr
+#define CONSTEXPR constexpr
+#else
+#define CONSTEXPR_OR_INLINE inline
+#define CONSTEXPR
+#endif
+
 // Constants
 
 CONST_VAR double infinity = std::numeric_limits<double>::infinity();
-CONST_VAR double pi = 3.1415926535897932385;
+constexpr double pi = 3.1415926535897932385;
 
 // Utility Functions
 
-inline double degrees_to_radians(const double degrees) {
+CONSTEXPR_OR_INLINE double degrees_to_radians(const double degrees) {
   return degrees * pi / 180.0;
 }
 
