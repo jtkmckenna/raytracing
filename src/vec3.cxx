@@ -26,12 +26,6 @@ vec3 &vec3::operator*=(double t) {
 
 vec3 &vec3::operator/=(double t) { return *this *= 1 / t; }
 
-double vec3::length() const { return std::sqrt(length_squared()); }
-
-double vec3::length_squared() const {
-  return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
-}
-
 bool vec3::near_zero() const {
   // Return true if the vector is close to zero in all dimensions.
   CONST_VAR auto s = 1e-8;
