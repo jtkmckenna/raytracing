@@ -31,9 +31,12 @@ for ((i=0; i<NUM_COMBINATIONS; i++)); do
             FOLDER_NAME+="0"
         fi
     done
-    
+    # If the folder exists, delete it
+    if [ -d $FOLDER_NAME ]; then
+        rm -rf $FOLDER_NAME
+    fi
     # Print or run the CMake command
-    mkdir -p $FOLDER_NAME
+    mkdir $FOLDER_NAME
     cd $FOLDER_NAME
     echo "cmake ${SOURCE_DIR} $CMAKE_FLAGS"
     cmake ${SOURCE_DIR} $CMAKE_FLAGS
