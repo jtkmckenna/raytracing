@@ -10,10 +10,10 @@
 using colour = vec3;
 
 inline double linear_to_gamma(CONST_VAR double linear_component) {
-  if (linear_component > 0)
+  if (linear_component > 0) {
     ASSUME(linear_component >= 0);
-  return std::sqrt(linear_component);
-
+    return std::sqrt(linear_component);
+  }
   return 0;
 }
 
