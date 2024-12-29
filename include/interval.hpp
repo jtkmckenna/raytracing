@@ -7,28 +7,17 @@ class interval {
 public:
   double min, max;
 
-  interval() : min(+infinity), max(-infinity) {} // Default interval is empty
+  interval();
 
-  interval(const double min, const double max) : min(min), max(max) {}
+  interval(const double min, const double max);
 
-  double size() const { return max - min; }
+  double size() const;
 
-  bool contains(const double x) const { return min <= x && x <= max; }
+  bool contains(const double x) const;
 
-  bool surrounds(const double x) const { return min < x && x < max; }
+  bool surrounds(const double x) const;
 
-  double clamp(const double x) const {
-    if (x < min)
-      return min;
-    if (x > max)
-      return max;
-    return x;
-  }
-
-  static CONST_VAR interval empty, universe;
+  double clamp(const double x) const;
 };
-
-CONST_VAR interval interval::empty = interval(+infinity, -infinity);
-CONST_VAR interval interval::universe = interval(-infinity, +infinity);
 
 #endif
