@@ -7,7 +7,7 @@ cd ../
 SOURCE_DIR=`pwd`
 cd -
 
-BOOL_VARS=`cmake -L .. | grep BOOL | cut -d'=' -f1 | cut -d':' -f1`
+BOOL_VARS=`cmake -L .. | grep BOOL | cut -d'=' -f1 | cut -d':' -f1 | grep -v WARNINGS_AS_ERRORS`
 echo $BOOL_VARS
 
 # Convert the string to an array
@@ -19,7 +19,7 @@ NUM_COMBINATIONS=$((2**NUM_VARS))
 
 # Iterate through each combination
 for ((i=0; i<NUM_COMBINATIONS; i++)); do
-    CMAKE_FLAGS=""
+    CMAKE_FLAGS="-DWARNINGS_AS_ERRORS=ON "
     FOLDER_NAME=""
     # Generate the ON/OFF combination for each variable
     for ((j=0; j<NUM_VARS; j++)); do
