@@ -1,0 +1,19 @@
+name: Build and Clang-Format Check
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: sudo apt-get install -y clang-format
+
+    - name: Check Clang-Format
+      run: |
+        find . -name '*.hpp' -o -name '*.cpp' | xargs clang-format -i
+        git diff --exit-code
