@@ -27,7 +27,11 @@
 #elif defined(__clang__)
 #define ASSUME(cond) __builtin_assume(cond)
 #elif defined(__GNUC__)
-#define ASSUME(cond) [[assume(cond)]]
+#define ASSUME(cond)                                                           \
+  do {                                                                         \
+    if (!(cond))                                                               \
+      __builtin_unreachable();                                                 \
+  } while (0)
 #endif
 #endif
 
