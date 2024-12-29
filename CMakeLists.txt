@@ -14,7 +14,7 @@ option(DISABLE_CONST_VAR "Disable const keyword on member variables" OFF)
 option(DISABLE_ASSUME "Disable assume keyword" OFF)
 option(DISABLE_POW "Disable pow function (replace with unrolled calculation)" OFF)
 option(DISABLE_CONSTEXPR "Disable constexpr keyword" OFF)
-
+option(WARNINGS_AS_ERRORS "Treat warnings as errors" ON)
 
 if(DISABLE_CONST_VAR)
     add_compile_definitions(DISABLE_CONST_VAR)
@@ -36,6 +36,9 @@ if (DISABLE_POW)
 endif()
 if (NOT DISABLE_CONSTEXPR)
     add_compile_definitions(CONSTEXPR_NOT_INLINE)
+endif()
+if (WARNINGS_AS_ERRORS)
+    add_compile_options(-Werror)
 endif()
 
 # Add source files
